@@ -1,11 +1,10 @@
 const config = {
-    "trailingComma": "all",
-    "tabWidth": 2,
-    "semi": true,
-    "singleQuote": true,
-    "printWidth": 120,
-    "bracketSpacing": true,
-    "endOfLine": "lf"
-}
+  "semi": false,
+  "tabWidth": 2,
+  "printWidth": 100,
+  "singleQuote": true,
+  "trailingComma": "none",
+  "jsxBracketSameLine": true
+};
 
 module.exports = config;
