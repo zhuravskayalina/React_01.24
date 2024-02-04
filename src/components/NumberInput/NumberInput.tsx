@@ -21,6 +21,7 @@ export function NumberInput({ min, max, value, onChange }: NumberInputProps) {
         value={value}
         required
         name="questionsAmount"
+        id="questionsAmount"
         onChange={onChange}
       />
     </div>

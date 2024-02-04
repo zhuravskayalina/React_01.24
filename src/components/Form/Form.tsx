@@ -3,41 +3,14 @@ import styles from './Form.module.scss'
 import { NumberInput } from '../NumberInput/NumberInput.tsx'
 import { SelectInput } from '../SelectInput/SelectInput.tsx'
 import { ChangeEvent, useState } from 'react'
-
-const MIN_QUESTIONS_AMOUNT = 15
-const MAX_QUESTIONS_AMOUNT = 50
-
-const categories = [
-  'Entertainment: Books',
-  'Entertainment: Film',
-  'Entertainment: Music',
-  'Entertainment: Musicals & Theatres',
-  'Entertainment: Television',
-  'Entertainment: Video Games',
-  'Entertainment: Board Games',
-  'Science & Nature',
-  'Science: Computers',
-  'Science: Mathematics',
-  'Mythology',
-  'Sports',
-  'Geography',
-  'History',
-  'Politics',
-  'Art',
-  'Celebrities',
-  'Animals',
-  'Vehicles',
-  'Entertainment: Comics',
-  'Science: Gadgets',
-  'Entertainment: Japanese Anime & Manga',
-  'Entertainment: Cartoon & Animations'
-]
-
-const difficultyOptions = ['Any Difficulty', 'Easy', 'Medium', 'Hard']
-
-const typeOptions = ['Any Type', 'Multuple Choice', 'True/False']
-
-const timeOptions = [1, 2, 5]
+import {
+  categories,
+  difficultyOptions,
+  MAX_QUESTIONS_AMOUNT,
+  MIN_QUESTIONS_AMOUNT,
+  timeOptions,
+  typeOptions
+} from '../../data/FormData.tsx'
 
 const Form = () => {
   const [questionsAmount, setQuestionsAmount] = useState(MIN_QUESTIONS_AMOUNT)
