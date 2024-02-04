@@ -1,0 +1,101 @@
+import styles from './Form.module.scss'
+
+import { NumberInput } from '../NumberInput/NumberInput.tsx'
+import { SelectInput } from '../SelectInput/SelectInput.tsx'
+import { ChangeEvent, useState } from 'react'
+
+const MIN_QUESTIONS_AMOUNT = 15
+const MAX_QUESTIONS_AMOUNT = 50
+
+const categories = [
+  'Entertainment: Books',
+  'Entertainment: Film',
+  'Entertainment: Music',
+  'Entertainment: Musicals & Theatres',
+  'Entertainment: Television',
+  'Entertainment: Video Games',
+  'Entertainment: Board Games',
+  'Science & Nature',
+  'Science: Computers',
+  'Science: Mathematics',
+  'Mythology',
+  'Sports',
+  'Geography',
+  'History',
+  'Politics',
+  'Art',
+  'Celebrities',
+  'Animals',
+  'Vehicles',
+  'Entertainment: Comics',
+  'Science: Gadgets',
+  'Entertainment: Japanese Anime & Manga',
+  'Entertainment: Cartoon & Animations'
+]
+
+const difficultyOptions = ['Any Difficulty', 'Easy', 'Medium', 'Hard']
+
+const typeOptions = ['Any Type', 'Multuple Choice', 'True/False']
+
+const timeOptions = [1, 2, 5]
+
+const Form = () => {
+  const [questionsAmount, setQuestionsAmount] = useState(MIN_QUESTIONS_AMOUNT)
+  const [category, setCategory] = useState(categories[0])
+  const [difficulty, setDifficulty] = useState(difficultyOptions[0])
+  const [type, setType] = useState(typeOptions[0])
+  const [time, setTime] = useState(timeOptions[0])
+
+  const handleNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setQuestionsAmount(Number(event.target.value))
+  }
+
+  const handleCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setCategory(event.target.value)
+  }
+
+  const handleDifficultyChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setDifficulty(event.target.value)
+  }
+
+  const handleTypeChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setType(event.target.value)
+  }
+
+  const handleTimeChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setTime(Number(event.target.value))
+  }
+
+  return (
+    <div className={styles.container}>
+      <form className={styles.form}>
+        <NumberInput
+          value={questionsAmount}
+          min={MIN_QUESTIONS_AMOUNT}
+          max={MAX_QUESTIONS_AMOUNT}
+          onChange={handleNumberChange}
+        />
+        <SelectInput
+          name="category"
+          options={categories}
+          value={category}
+          onChange={handleCategoryChange}
+        />
+        <SelectInput
+          name="difficulty"
+          options={difficultyOptions}
+          value={difficulty}
+          onChange={handleDifficultyChange}
+        />
+        <SelectInput name="type" options={typeOptions} value={type} onChange={handleTypeChange} />
+        <SelectInput name="time" options={timeOptions} value={time} onChange={handleTimeChange} />
+        <div className={styles.buttons}>
+          <button className={styles.button}>Start quiz</button>
+          <button className={styles.button}>See my statistics</button>
+        </div>
+      </form>
+    </div>
+  )
+}
+
+export default Form
