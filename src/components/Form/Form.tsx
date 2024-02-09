@@ -11,6 +11,7 @@ import {
   timeOptions,
   typeOptions
 } from '../../data/FormData.tsx'
+import clsx from 'clsx'
 
 const Form = () => {
   const [questionsAmount, setQuestionsAmount] = useState(MIN_QUESTIONS_AMOUNT)
@@ -63,8 +64,8 @@ const Form = () => {
         <SelectInput name="type" options={typeOptions} value={type} onChange={handleTypeChange} />
         <SelectInput name="time" options={timeOptions} value={time} onChange={handleTimeChange} />
         <div className={styles.buttons}>
-          <button className={styles.button}>Start quiz</button>
-          <button className={styles.button}>See my statistics</button>
+          <button className={clsx(styles.button, styles.button__start)}>Start quiz</button>
+          <button className={clsx(styles.button, styles.button__results)}>See my statistics</button>
         </div>
       </form>
     </div>

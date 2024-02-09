@@ -1,0 +1,23 @@
+@use 'src/styles/colors';
+
+.quiz {
+  &__progress {
+    margin-bottom: 20px;
+  }
+
+  &__progressBar {
+    width: 100%;
+    background-color: colors.$white;
+    height: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+}
+
+.progress {
+  height: 100%;
+  background-color: colors.$blue;
+  transition: width 0.3s ease-in-out;
+  border-radius: 10px;
+  width: 100%;
+}

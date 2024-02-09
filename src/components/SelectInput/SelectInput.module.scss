@@ -9,3 +9,7 @@
 .select {
 @include mixins.input-style
 }
+
+.label {
+  @include mixins.input-label;
+}

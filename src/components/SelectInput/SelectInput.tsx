@@ -11,7 +11,9 @@ interface SelectInputProps {
 export function SelectInput({ name, options, value, onChange }: SelectInputProps) {
   return (
     <div className={styles.container}>
-      <label htmlFor={name}>Select {name}</label>
+      <label htmlFor={name} className={styles.label}>
+        Select {name}
+      </label>
       <select id={name} name={name} onChange={onChange} value={value} className={styles.select}>
         {options.map((option) => (
           <option value={option} key={option}>
