@@ -32,7 +32,7 @@ const Timer = ({ seconds }: TimerProps) => {
   return (
     <div>
       <h1 className={clsx(timeLeft <= 10 ? [styles.timer, styles.timer_warning] : styles.timer)}>
-        Timer: {formatTime(timeLeft)}
+        {formatTime(timeLeft)}
       </h1>
     </div>
   )

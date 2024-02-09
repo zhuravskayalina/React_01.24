@@ -24,7 +24,7 @@ export const Game = ({ data: { difficulty, category, questionsAmount }, question
     const nextQuestionNumber = questionNumber + 1
 
     if (nextQuestionNumber > questionsAmount) {
-      console.log('No more questions')
+      // end game
     } else {
       setCurrentQuestion(questions[questionNumber])
       setQuestionNumber((prev) => prev + 1)
@@ -45,35 +45,40 @@ export const Game = ({ data: { difficulty, category, questionsAmount }, question
 
   return (
     <div className={styles.game}>
-      <button className={styles.button_end}>End quiz</button>
-
       <div className={styles.game__info}>
-        <p className={styles.game__infoItem}>Category: {category}</p>
-        <p className={styles.game__infoItem}>Difficulty: {difficulty}</p>
+        <div>
+          <p className={styles.game__infoItem}>Category: {category}</p>
+          <p className={styles.game__infoItem}>Difficulty: {difficulty}</p>
+        </div>
+        <button className={styles.button_end} title="End quiz">
+          End quiz
+        </button>
       </div>
       <div className={styles.game__progress}>
         <QuizProgress questionsAmount={questionsAmount} currentQuestion={questionNumber} />
       </div>
-      <div className={styles.game__timer}>
-        <Timer seconds={12} key={timerKey} />
-      </div>
       <div className={styles.question}>
-        <p className={styles.question__text}>"{currentQuestion.question}"</p>
-      </div>
-      <div className={styles.options}>
-        <p>Choose your answer:</p>
-        <ul className={styles.options__list}>
-          {options.map((option) => (
-            <li className={styles.options__item} key={option}>
-              <button
-                className={styles.options__button}
-                data-value={option}
-                onClick={handlePressAnswer}>
-                {option}
-              </button>
-            </li>
-          ))}
-        </ul>
+        <div className={styles.question__heading}>
+          <Timer seconds={12} key={timerKey} />
+          <p className={styles.question__text}>{currentQuestion.question}</p>
+        </div>
+
+        <div className={styles.options}>
+          <p>Choose your answer:</p>
+          <ul className={styles.options__list}>
+            {options.map((option) => (
+              <li className={styles.options__item} key={option}>
+                <button
+                  className={styles.options__button}
+                  title={option}
+                  data-value={option}
+                  onClick={handlePressAnswer}>
+                  {option}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   )
