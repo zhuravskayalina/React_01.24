@@ -12,7 +12,9 @@ interface NumberInputProps {
 export function NumberInput({ min, max, value, onChange }: NumberInputProps) {
   return (
     <div className={styles.container}>
-      <label htmlFor="questionsAmount">Number of questions</label>
+      <label htmlFor="questionsAmount" className={styles.label}>
+        Number of questions
+      </label>
       <input
         className={styles.input}
         type="number"
