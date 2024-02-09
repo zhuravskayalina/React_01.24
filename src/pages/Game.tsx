@@ -12,6 +12,11 @@ interface GameProps {
 export const Game = ({ data: { difficulty, category, questionsAmount }, questions }: GameProps) => {
   const [questionNumber, setQuestionNumber] = useState(1)
   const [currentQuestion, setCurrentQuestion] = useState<Question>(questions[questionNumber - 1])
+  const [timerKey, setTimerKey] = useState<number>(0)
+
+  const handleRestartTimer = () => {
+    setTimerKey((prevKey) => prevKey + 1)
+  }
 
   const options = [currentQuestion.correct_answer, ...currentQuestion.incorrect_answers]
 
@@ -34,7 +39,7 @@ export const Game = ({ data: { difficulty, category, questionsAmount }, question
     } else {
       // store
     }
-
+    handleRestartTimer()
     goToNextQuestion()
   }
 
@@ -50,7 +55,7 @@ export const Game = ({ data: { difficulty, category, questionsAmount }, question
         <QuizProgress questionsAmount={questionsAmount} currentQuestion={questionNumber} />
       </div>
       <div className={styles.game__timer}>
-        <Timer seconds={12} />
+        <Timer seconds={12} key={timerKey} />
       </div>
       <div className={styles.question}>
         <p className={styles.question__text}>"{currentQuestion.question}"</p>

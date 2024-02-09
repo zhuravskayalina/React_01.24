@@ -10,17 +10,17 @@ const Timer = ({ seconds }: TimerProps) => {
   const [timeLeft, setTimeLeft] = useState(seconds)
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeLeft((prevTimeLeft: number) => {
+    const intervalId = setInterval(() => {
+      setTimeLeft((prevTimeLeft) => {
         if (prevTimeLeft === 0) {
-          clearInterval(interval)
-          return 0
+          clearInterval(intervalId)
+          return seconds
         }
         return prevTimeLeft - 1
       })
     }, 1000)
 
-    return () => clearInterval(interval)
+    return () => clearInterval(intervalId)
   }, [seconds])
 
   const formatTime = (time: number) => {
