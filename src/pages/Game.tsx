@@ -30,8 +30,12 @@ export const Game = ({ data: { difficulty, category, questionsAmount }, question
     const pressedValue = (event.target as HTMLButtonElement).dataset.value
 
     if (pressedValue === currentQuestion.correct_answer) {
-      goToNextQuestion()
+      // store
+    } else {
+      // store
     }
+
+    goToNextQuestion()
   }
 
   return (
@@ -48,7 +52,6 @@ export const Game = ({ data: { difficulty, category, questionsAmount }, question
       <div className={styles.game__timer}>
         <Timer seconds={12} />
       </div>
-
       <div className={styles.question}>
         <p className={styles.question__text}>"{currentQuestion.question}"</p>
       </div>
