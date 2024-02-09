@@ -18,6 +18,10 @@
 }
 
 .info {
+  &__item {
+    margin: 5px 0;
+    color: colors.$white-low-accent;
+  }
 }
 
 .buttons {

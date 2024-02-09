@@ -3,6 +3,7 @@ export interface GameData {
   questionsAmount: number
   difficulty: 'Easy' | 'Medium' | 'Hard'
   type: 'Any type' | 'Multiple choice' | 'True/False'
+  time: number
 }
 
 export interface CurrentGameData {}
