@@ -1,0 +1,52 @@
+@use 'src/styles/colors';
+
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.table {
+  &__heading {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    font-weight: bold;
+    border-bottom: 1px solid colors.$white;
+  }
+
+  &__headingItem {
+    text-align: center;
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+
+  &__data {
+    list-style: none;
+    padding-left: 0;
+
+  }
+
+  &__listItem {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    padding: 0;
+  }
+
+  &__item {
+    text-align: center;
+
+    &:first-child {
+      text-align: left;
+    }
+  }
+}
+
+.correct {
+  color: colors.$correct;
+}
+
+.incorrect {
+  color: colors.$incorrect;
+}
