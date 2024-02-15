@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { URL } from '../router/types.ts'
 import { callWithDelay } from '../utils/helpers.ts'
 
-const gameTime = 10
+const gameTime = 17
 
 const Game = () => {
   const [questionNumber, setQuestionNumber] = useState(1)
@@ -22,6 +22,7 @@ const Game = () => {
   const [openGameOverModal, setOpenGameOverModal] = useState(false)
   const [quizTime, setQuizTime] = useState(gameTime)
   const [gameOver, setGameOver] = useState(false)
+  const [timerIsActive, setTimerIsActive] = useState(true)
 
   const options = [currentQuestion.correct_answer, ...currentQuestion.incorrect_answers]
 
@@ -34,26 +35,33 @@ const Game = () => {
   }, [navigate])
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setQuizTime((prevSeconds) => {
-        if (prevSeconds === 0 && !gameOver) {
-          clearInterval(timer)
-          setOpenGameOverModal(true)
-          callWithDelay(handleNavigateToResults, 2000)
-          return prevSeconds
-        }
-        return prevSeconds - 1
-      })
-      handleRestartTimer()
-    }, 1000)
+    let timer: number
+    if (timerIsActive) {
+      timer = setInterval(() => {
+        setQuizTime((prevSeconds) => {
+          if (prevSeconds === 0 && !gameOver) {
+            clearInterval(timer)
+            setOpenGameOverModal(true)
+            callWithDelay(handleNavigateToResults, 2000)
+            return prevSeconds
+          }
+          return prevSeconds - 1
+        })
+        handleRestartTimer()
+      }, 1000)
+    }
 
     return () => {
       clearInterval(timer)
     }
-  }, [gameOver, handleNavigateToResults])
+  }, [gameOver, handleNavigateToResults, timerIsActive])
 
   const handleRestartTimer = () => {
     setTimerKey((prevKey) => prevKey + 1)
+  }
+
+  const stopTimer = () => {
+    setTimerIsActive(false)
   }
 
   const handleOpenConfirmModal = () => {
@@ -77,6 +85,7 @@ const Game = () => {
 
     if (nextQuestionNumber > questionsAmount) {
       setGameOver(true)
+      stopTimer()
       setTimeout(handleNavigateToResults, 2000)
     } else {
       setCurrentQuestion(mockQuestionsMultiple[questionNumber])
@@ -107,6 +116,7 @@ const Game = () => {
           End quiz
         </button>
       </div>
+      <button onClick={stopTimer}> Stop timer</button>
       <div className={styles.game__progress}>
         <QuizProgress questionsAmount={questionsAmount} currentQuestion={questionNumber} />
       </div>
