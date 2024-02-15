@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { URL } from '../router/types.ts'
 import { callWithDelay } from '../utils/helpers.ts'
 
-const gameTime = 100
+const gameTime = 10
 
 const Game = () => {
   const [questionNumber, setQuestionNumber] = useState(1)
