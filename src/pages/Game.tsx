@@ -34,7 +34,6 @@ const Game = () => {
   }, [navigate])
 
   useEffect(() => {
-    console.log('effect')
     const timer = setInterval(() => {
       setQuizTime((prevSeconds) => {
         if (prevSeconds === 0 && !gameOver) {
