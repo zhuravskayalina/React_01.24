@@ -1,6 +1,6 @@
 import styles from './Game.module.scss'
 import { Question } from '../types/types.ts'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import QuizProgress from '../components/ProgressBar/ProgressBar.tsx'
 import Timer from '../components/Timer/Timer.tsx'
 import { mockData, mockQuestionsMultiple } from '../data/quizData.ts'
@@ -30,10 +30,6 @@ const Game = () => {
 
   const { difficulty, category, questionsAmount } = mockData
 
-  const handleNavigateToResults = useCallback(() => {
-    navigate(URL.Results, { replace: true })
-  }, [navigate])
-
   useEffect(() => {
     let timer: number
     if (timerIsActive) {
@@ -54,7 +50,12 @@ const Game = () => {
     return () => {
       clearInterval(timer)
     }
-  }, [gameOver, handleNavigateToResults, timerIsActive])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameOver, timerIsActive])
+
+  const handleNavigateToResults = () => {
+    navigate(URL.Results, { replace: true })
+  }
 
   const handleRestartTimer = () => {
     setTimerKey((prevKey) => prevKey + 1)
