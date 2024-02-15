@@ -12,6 +12,8 @@ import {
   typeOptions
 } from '../../data/FormData.tsx'
 import clsx from 'clsx'
+import { Link } from 'react-router-dom'
+import { URL } from '../../router/types.ts'
 
 const Form = () => {
   const [questionsAmount, setQuestionsAmount] = useState(MIN_QUESTIONS_AMOUNT)
@@ -64,8 +66,12 @@ const Form = () => {
         <SelectInput name="type" options={typeOptions} value={type} onChange={handleTypeChange} />
         <SelectInput name="time" options={timeOptions} value={time} onChange={handleTimeChange} />
         <div className={styles.buttons}>
-          <button className={clsx(styles.button, styles.button__start)}>Start quiz</button>
-          <button className={clsx(styles.button, styles.button__results)}>See my statistics</button>
+          <Link to={URL.Game} className={clsx(styles.button, styles.button__start)}>
+            Start quiz
+          </Link>
+          <Link to={URL.Statistics} className={clsx(styles.button, styles.button__results)}>
+            See my statistics
+          </Link>
         </div>
       </form>
     </div>

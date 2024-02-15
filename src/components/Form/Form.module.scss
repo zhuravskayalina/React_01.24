@@ -1,4 +1,5 @@
 @use 'src/styles/colors';
+@use 'src/styles/mixins';
 
 .container {
   border-radius: 20px;
@@ -21,17 +22,7 @@
 }
 
 .button {
-  padding: 15px 10px;
-  border-radius: 5px;
-  text-transform: uppercase;
-  transition: .5s;
-  background-color: white;
-  border: 2px solid transparent;
-
-  &:hover {
-    cursor: pointer;
-    background-color: colors.$blue-hover;
-  }
+  @include mixins.basic-button;
 
   &__start {
     background-color: colors.$blue;
@@ -40,6 +31,7 @@
 
   &__results {
     border: 2px solid colors.$blue;
+    color: black;
 
     &:hover {
       color: white;

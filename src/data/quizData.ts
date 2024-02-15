@@ -1,4 +1,12 @@
-import { Question } from '../types/types.ts'
+import { GameData, Question } from '../types/types.ts'
+
+export const mockData: GameData = {
+  difficulty: 'Medium',
+  type: 'Any type',
+  questionsAmount: 10,
+  category: 'Films',
+  time: 5
+}
 
 export const mockQuestionsBoolean: Question[] = [
   {
