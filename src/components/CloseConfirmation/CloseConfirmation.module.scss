@@ -1,0 +1,23 @@
+@use 'src/styles/mixins';
+@use 'src/styles/colors';
+
+.text {
+  font-size: 20px;
+  margin: 0 0 20px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.button {
+  @include mixins.basic-button;
+  border: 2px solid colors.$blue-hover;
+  font-size: 17px;
+
+  &_confirm {
+    background-color: colors.$blue-hover;
+  }
+}
