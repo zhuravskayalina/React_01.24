@@ -1,11 +1,19 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styles from './Results.module.scss'
 import QuizResultsTable from '../components/ResultsTable/ResultsTable.tsx'
 import { mockData } from '../data/quizData.ts'
+import { useAppDispatch } from '../redux/hooks/hooks.ts'
+import { reset } from '../redux/slices/configurationSlice.ts'
 
 const Results = () => {
   const { category, difficulty, type, time } = mockData
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+
+  const handleChooseAnotherQuiz = () => {
+    navigate('/', { replace: true })
+    dispatch(reset())
+  }
 
   return (
     <div className={styles.results}>
@@ -36,9 +44,9 @@ const Results = () => {
           className={styles.buttons__item}>
           Restart
         </button>
-        <Link to="/" className={styles.buttons__item}>
+        <button onClick={handleChooseAnotherQuiz} className={styles.buttons__item}>
           Choose another quiz
-        </Link>
+        </button>
       </div>
     </div>
   )

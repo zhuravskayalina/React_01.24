@@ -41,10 +41,13 @@ export const configurationSlice = createSlice({
     },
     setTime(state, action: PayloadAction<number>) {
       state.time = action.payload
+    },
+    reset(state) {
+      Object.assign(state, initialState)
     }
   }
 })
 
-export const { setQuestionsAmount, setCategory, setType, setDifficulty, setTime } =
+export const { setQuestionsAmount, setCategory, setType, setDifficulty, setTime, reset } =
   configurationSlice.actions
 export default configurationSlice.reducer
