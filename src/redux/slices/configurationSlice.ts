@@ -43,7 +43,7 @@ export const configurationSlice = createSlice({
       state.time = action.payload
     },
     reset(state) {
-      state = initialState
+      Object.assign(state, initialState)
     }
   }
 })
