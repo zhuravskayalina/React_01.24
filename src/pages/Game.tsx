@@ -1,22 +1,33 @@
 import styles from './Game.module.scss'
-import { Question } from '../types/types.ts'
 import React, { useEffect, useState } from 'react'
 import QuizProgress from '../components/ProgressBar/ProgressBar.tsx'
 import Timer from '../components/Timer/Timer.tsx'
-import { mockData, mockQuestionsMultiple } from '../data/quizData.ts'
 import Modal from '../components/Modal/Modal.tsx'
 import CloseConfirmation from '../components/CloseConfirmation/CloseConfirmation.tsx'
 import { useNavigate } from 'react-router-dom'
 import { URL } from '../router/types.ts'
 import { callWithDelay } from '../utils/helpers.ts'
+import { useGetQuizQuery } from '../redux/api/apiSlice.ts'
+import { useAppSelector } from '../redux/hooks/hooks.ts'
+import Question from '../components/Question/Question.tsx'
 
-const gameTime = 17
+const gameTime = 100
 
 const Game = () => {
   const [questionNumber, setQuestionNumber] = useState(1)
-  const [currentQuestion, setCurrentQuestion] = useState<Question>(
-    mockQuestionsMultiple[questionNumber - 1]
-  )
+
+  const quizConfig = useAppSelector((store) => store.gameConfiguration)
+  const { questionsAmount, category, difficulty, type } = quizConfig
+
+  const {
+    data: quizData = { results: [], response_code: '' },
+    isLoading,
+    isSuccess,
+    isError
+  } = useGetQuizQuery({ questionsAmount, categoryId: category.id, difficulty, type })
+
+  const currentQuestion = quizData?.results[questionNumber - 1]
+
   const [timerKey, setTimerKey] = useState<number>(0)
   const [openConfirmModal, setOpenConfirmModal] = useState(false)
   const [openGameOverModal, setOpenGameOverModal] = useState(false)
@@ -24,11 +35,7 @@ const Game = () => {
   const [gameOver, setGameOver] = useState(false)
   const [timerIsActive, setTimerIsActive] = useState(true)
 
-  const options = [currentQuestion.correct_answer, ...currentQuestion.incorrect_answers]
-
   const navigate = useNavigate()
-
-  const { difficulty, category, questionsAmount } = mockData
 
   useEffect(() => {
     let timer: number
@@ -89,7 +96,7 @@ const Game = () => {
       stopTimer()
       setTimeout(handleNavigateToResults, 2000)
     } else {
-      setCurrentQuestion(mockQuestionsMultiple[questionNumber])
+      // setCurrentQuestion(mockQuestionsMultiple[questionNumber])
       setQuestionNumber((prev) => prev + 1)
     }
   }
@@ -106,58 +113,54 @@ const Game = () => {
     goToNextQuestion()
   }
 
-  return (
-    <div className={styles.game}>
-      <div className={styles.game__info}>
-        <div>
-          <p className={styles.game__infoItem}>Category: {category}</p>
-          <p className={styles.game__infoItem}>Difficulty: {difficulty}</p>
+  let content
+
+  if (isLoading) {
+    content = <p>Loading...</p>
+  }
+
+  if (isSuccess && quizData.response_code === 0) {
+    content = (
+      <div className={styles.game}>
+        <div className={styles.game__info}>
+          <div>
+            <p className={styles.game__infoItem}>Category: {category.name}</p>
+            <p className={styles.game__infoItem}>Difficulty: {difficulty}</p>
+          </div>
+          <button className={styles.button_end} title="End quiz" onClick={handleOpenConfirmModal}>
+            End quiz
+          </button>
         </div>
-        <button className={styles.button_end} title="End quiz" onClick={handleOpenConfirmModal}>
-          End quiz
-        </button>
-      </div>
-      <button onClick={stopTimer}> Stop timer</button>
-      <div className={styles.game__progress}>
-        <QuizProgress questionsAmount={questionsAmount} currentQuestion={questionNumber} />
-      </div>
-      <div className={styles.question}>
-        <div className={styles.question__heading}>
-          <Timer seconds={quizTime} key={timerKey} />
-          <p className={styles.question__text}>{currentQuestion.question}</p>
+        <div className={styles.game__progress}>
+          <QuizProgress questionsAmount={questionsAmount} currentQuestion={questionNumber} />
         </div>
+        <Timer seconds={quizTime} key={timerKey} />
+        <Question data={currentQuestion} onClick={handlePressAnswer} />
 
-        <div className={styles.options}>
-          <p>Choose your answer:</p>
-          <ul className={styles.options__list}>
-            {options.map((option) => (
-              <li className={styles.options__item} key={option}>
-                <button
-                  className={styles.options__button}
-                  title={option}
-                  data-value={option}
-                  onClick={handlePressAnswer}>
-                  {option}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <Modal isOpen={openConfirmModal} onClose={handleCloseConfirmModal} disableClose={false}>
+          <CloseConfirmation onConfirm={handleNavigateToHome} onClose={handleCloseConfirmModal} />
+        </Modal>
+
+        <Modal isOpen={openGameOverModal} disableClose={true}>
+          <p>Time is end! You will be redirected to the Results page.</p>
+        </Modal>
+
+        <Modal isOpen={gameOver} disableClose={true}>
+          <p>Congratulations on ending the game! You will be redirected to the Results page! </p>
+        </Modal>
       </div>
+    )
+  }
 
-      <Modal isOpen={openConfirmModal} onClose={handleCloseConfirmModal} disableClose={false}>
-        <CloseConfirmation onConfirm={handleNavigateToHome} onClose={handleCloseConfirmModal} />
-      </Modal>
+  if (isSuccess && quizData.response_code === 1) {
+    content = <p>Sorry we dont have a quiz with such settings :( Try another one</p>
+  }
 
-      <Modal isOpen={openGameOverModal} disableClose={true}>
-        <p>Time is end! You will be redirected to the Results page.</p>
-      </Modal>
+  if (isError) {
+    content = <p>Sorry, something went wrong. Try one more time!</p>
+  }
 
-      <Modal isOpen={gameOver} disableClose={true}>
-        <p>Congratulations on ending the game! You will be redirected to the Results page! </p>
-      </Modal>
-    </div>
-  )
+  return content
 }
 
 export default Game

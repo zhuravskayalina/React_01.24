@@ -5,11 +5,10 @@ import { ChangeEvent } from 'react'
 interface NumberInputProps {
   min: number
   max: number
-  value: number
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
-export function NumberInput({ min, max, value, onChange }: NumberInputProps) {
+export function NumberInput({ min, max, onChange }: NumberInputProps) {
   return (
     <div className={styles.container}>
       <label htmlFor="questionsAmount" className={styles.label}>
@@ -20,8 +19,8 @@ export function NumberInput({ min, max, value, onChange }: NumberInputProps) {
         type="number"
         min={min}
         max={max}
-        value={value}
         required
+        placeholder={min.toString()}
         name="questionsAmount"
         id="questionsAmount"
         onChange={onChange}

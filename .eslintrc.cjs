@@ -14,13 +14,25 @@ module.exports = {
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs', 'vite.config.js', '**.svg', '**.css'],
   parserOptions: {ecmaVersion: 'latest', sourceType: 'module'},
-  settings: {react: {version: '18.2'}},
+  settings: {
+    react: {version: '18.2'},
+  },
   plugins: ['react-refresh'],
   rules: {
     'react-refresh/only-export-components': [
       'warn',
       {allowConstantExport: true},
     ],
-    'react/no-unescaped-entities': 'off'
+    'react/no-unescaped-entities': 'off',
+    "no-restricted-imports": "off",
+    "@typescript-eslint/no-restricted-imports": [
+      "warn",
+      {
+        "name": "react-redux",
+        "importNames": ["useSelector", "useDispatch"],
+        "message": "Use typed hooks `useAppDispatch` and `useAppSelector` instead."
+      }
+    ],
   },
+
 }

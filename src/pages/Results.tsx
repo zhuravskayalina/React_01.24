@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styles from './Results.module.scss'
 import QuizResultsTable from '../components/ResultsTable/ResultsTable.tsx'
 import { mockData } from '../data/quizData.ts'
 
 const Results = () => {
   const { category, difficulty, type, time } = mockData
+  const navigate = useNavigate()
 
   return (
     <div className={styles.results}>
@@ -15,7 +16,7 @@ const Results = () => {
         <div className={styles.info}>
           <h4>Overall:</h4>
           <div className={styles.info}>
-            <p className={styles.info__item}>Category: {category}</p>
+            <p className={styles.info__item}>Category: {category.name}</p>
             <p className={styles.info__item}>Difficulty: {difficulty}</p>
             <p className={styles.info__item}>Type: {type}</p>
             <p className={styles.info__item}>Time: {time} min</p>
@@ -30,9 +31,11 @@ const Results = () => {
         <QuizResultsTable />
       </div>
       <div className={styles.buttons}>
-        <Link to="/game" className={styles.buttons__item}>
+        <button
+          onClick={() => navigate('/game', { replace: true })}
+          className={styles.buttons__item}>
           Restart
-        </Link>
+        </button>
         <Link to="/" className={styles.buttons__item}>
           Choose another quiz
         </Link>
