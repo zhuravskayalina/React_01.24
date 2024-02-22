@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { GameConfiguration, QuestionData } from '../../types/types.ts'
-import { ANY_DIFFICULTY, ANY_ID, ANY_TYPE } from '../../data/FormData.tsx'
+import { ANY } from '../../data/FormData.tsx'
 
 interface QuizRequest {
   questionsAmount: number
@@ -25,9 +25,9 @@ export const apiSlice = createApi({
       query: ({ questionsAmount, categoryId, difficulty, type }) => {
         let query = `api.php?amount=${questionsAmount}`
 
-        if (categoryId && categoryId !== ANY_ID) query += `&category=${categoryId}`
-        if (difficulty && difficulty !== ANY_DIFFICULTY) query += `&difficulty=${difficulty}`
-        if (type && type !== ANY_TYPE) query += `&type=${type}`
+        if (categoryId && categoryId !== ANY) query += `&category=${categoryId}`
+        if (difficulty && difficulty !== ANY) query += `&difficulty=${difficulty}`
+        if (type && type !== ANY) query += `&type=${type}`
 
         return query
       }

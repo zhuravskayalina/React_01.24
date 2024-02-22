@@ -8,8 +8,8 @@ export interface Category {
 export interface GameConfiguration {
   category: Category
   questionsAmount: number
-  difficulty: 'Any Difficulty' | 'Easy' | 'Medium' | 'Hard'
-  type: 'Any Type' | 'Multiple choice' | 'True/False'
+  difficulty: 'any' | 'easy' | 'medium' | 'hard'
+  type: 'any' | 'multiple' | 'boolean'
   time: number
 }
 

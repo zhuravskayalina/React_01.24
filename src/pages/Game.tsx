@@ -30,7 +30,7 @@ const Game = () => {
 
   const [timerKey, setTimerKey] = useState<number>(0)
   const [openConfirmModal, setOpenConfirmModal] = useState(false)
-  const [openGameOverModal, setOpenGameOverModal] = useState(false)
+  const [timeEnd, setTimeEnd] = useState(false)
   const [quizTime, setQuizTime] = useState(time * SECONDS_IN_MINUTE)
   const [gameOver, setGameOver] = useState(false)
   const [timerIsActive, setTimerIsActive] = useState(true)
@@ -44,7 +44,7 @@ const Game = () => {
         setQuizTime((prevSeconds) => {
           if (prevSeconds === 0 && !gameOver) {
             clearInterval(timer)
-            setOpenGameOverModal(true)
+            setTimeEnd(true)
             callWithDelay(handleNavigateToResults, 2000)
             return prevSeconds
           }
@@ -141,7 +141,7 @@ const Game = () => {
           <CloseConfirmation onConfirm={handleNavigateToHome} onClose={handleCloseConfirmModal} />
         </Modal>
 
-        <Modal isOpen={openGameOverModal} disableClose={true}>
+        <Modal isOpen={timeEnd} disableClose={true}>
           <p>Time is end! You will be redirected to the Results page.</p>
         </Modal>
 
