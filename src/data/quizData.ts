@@ -1,100 +1,14 @@
-import { GameData, Question } from '../types/types.ts'
+import { GameConfiguration, QuestionData } from '../types/types.ts'
 
-export const mockData: GameData = {
+export const mockData: GameConfiguration = {
   difficulty: 'Medium',
-  type: 'Any type',
+  type: 'Any Type',
   questionsAmount: 10,
-  category: 'Films',
+  category: { id: 1, name: 'Films' },
   time: 5
 }
 
-export const mockQuestionsBoolean: Question[] = [
-  {
-    type: 'boolean',
-    difficulty: 'medium',
-    category: 'General Knowledge',
-    question:
-      'The bikini is named after the "Bikini Atoll", an island where the United States conducted tests on atomic bombs.',
-    correct_answer: 'True',
-    incorrect_answers: ['False']
-  },
-  {
-    type: 'boolean',
-    difficulty: 'medium',
-    category: 'General Knowledge',
-    question: 'The commercial UK channel ITV stands for "International Television".',
-    correct_answer: 'False',
-    incorrect_answers: ['True']
-  },
-  {
-    type: 'boolean',
-    difficulty: 'medium',
-    category: 'General Knowledge',
-    question: '"Santa Claus" is a variety of melon.',
-    correct_answer: 'True',
-    incorrect_answers: ['False']
-  },
-  {
-    type: 'boolean',
-    difficulty: 'medium',
-    category: 'General Knowledge',
-    question: 'The French word to travel is "Travail"',
-    correct_answer: 'False',
-    incorrect_answers: ['True']
-  },
-  {
-    type: 'boolean',
-    difficulty: 'medium',
-    category: 'General Knowledge',
-    question: 'The sum of all the numbers on a roulette wheel is 666.',
-    correct_answer: 'True',
-    incorrect_answers: ['False']
-  },
-  {
-    type: 'boolean',
-    difficulty: 'medium',
-    category: 'General Knowledge',
-    question: 'The French word for "glass" is "glace".',
-    correct_answer: 'False',
-    incorrect_answers: ['True']
-  },
-  {
-    type: 'boolean',
-    difficulty: 'medium',
-    category: 'General Knowledge',
-    question:
-      'Sitting for more than three hours a day can cut two years off a person&#039;s life expectancy.',
-    correct_answer: 'True',
-    incorrect_answers: ['False']
-  },
-  {
-    type: 'boolean',
-    difficulty: 'medium',
-    category: 'General Knowledge',
-    question:
-      'Francis Bacon died from a fatal case of pneumonia while he was attempting to preserve meat by stuffing a chicken with snow.',
-    correct_answer: 'True',
-    incorrect_answers: ['False']
-  },
-  {
-    type: 'boolean',
-    difficulty: 'medium',
-    category: 'General Knowledge',
-    question: 'The vapor produced by e-cigarettes is actually water.',
-    correct_answer: 'False',
-    incorrect_answers: ['True']
-  },
-  {
-    type: 'boolean',
-    difficulty: 'medium',
-    category: 'General Knowledge',
-    question: 'Albert Einstein had trouble with mathematics when he was in school.',
-    correct_answer: 'False',
-    incorrect_answers: ['True']
-  }
-]
-
-export const mockQuestionsMultiple: Question[] = [
+export const mockQuestionsMultiple: QuestionData[] = [
   {
     type: 'multiple',
     difficulty: 'medium',
