@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { ANY_CATEGORY, ANY, MIN_QUESTIONS_AMOUNT } from '../../data/FormData.tsx'
+import { ANY, MIN_QUESTIONS_AMOUNT } from '../../data/FormData.tsx'
 import { Category, GameConfiguration } from '../../types/types.ts'
 
 const initialState: GameConfiguration = {
   questionsAmount: MIN_QUESTIONS_AMOUNT,
   category: {
     id: ANY,
-    name: ANY_CATEGORY
+    name: ANY
   },
   difficulty: ANY,
   type: ANY,
