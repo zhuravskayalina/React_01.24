@@ -7,6 +7,9 @@ export const EASY_DIFFICULTY = 'easy'
 export const MEDIUM_DIFFICULTY = 'medium'
 export const HARD_DIFFICULTY = 'hard'
 
+export const MULTIPLE_OPTION = 'multiple'
+export const BOOLEAN_OPTION = 'boolean'
+
 export type Option = {
   id: string | number
   name: string | number
@@ -21,8 +24,8 @@ export const difficultyOptions = [
 
 export const typeOptions = [
   { id: ANY, name: 'Any type' },
-  { id: 'multiple', name: 'Multiple Choice' },
-  { id: 'boolean', name: 'True/False' }
+  { id: MULTIPLE_OPTION, name: 'Multiple Choice' },
+  { id: BOOLEAN_OPTION, name: 'True/False' }
 ]
 
 export const timeOptions = [

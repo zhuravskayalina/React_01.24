@@ -8,8 +8,10 @@ import { useNavigate } from 'react-router-dom'
 import { URL } from '../router/types.ts'
 import { callWithDelay } from '../utils/helpers.ts'
 import { useGetQuizQuery } from '../redux/api/apiSlice.ts'
-import { useAppSelector } from '../redux/hooks/hooks.ts'
+import { useAppDispatch, useAppSelector } from '../redux/hooks/hooks.ts'
 import Question from '../components/Question/Question.tsx'
+import { addInfo, increaseCorrect, increaseTotal } from '../redux/slices/statisticsSlice.ts'
+import { RESPONSE_CODES } from '../types/enums.ts'
 
 const SECONDS_IN_MINUTE = 60
 
@@ -25,6 +27,8 @@ const Game = () => {
     isSuccess,
     isError
   } = useGetQuizQuery({ questionsAmount, categoryId: category.id, difficulty, type })
+
+  const dispatch = useAppDispatch()
 
   const currentQuestion = quizData?.results[questionNumber - 1]
 
@@ -92,24 +96,32 @@ const Game = () => {
     const nextQuestionNumber = questionNumber + 1
 
     if (nextQuestionNumber > questionsAmount) {
+      dispatch(increaseTotal())
+
       setGameOver(true)
       stopTimer()
       setTimeout(handleNavigateToResults, 2000)
     } else {
-      // setCurrentQuestion(mockQuestionsMultiple[questionNumber])
       setQuestionNumber((prev) => prev + 1)
     }
   }
 
   const handlePressAnswer = (event: React.MouseEvent<HTMLButtonElement>): void => {
     const pressedValue = (event.target as HTMLButtonElement).dataset.value
+    const info = {
+      category: currentQuestion.category,
+      type: currentQuestion.type,
+      difficulty: currentQuestion.difficulty
+    }
+    dispatch(addInfo(info))
+    dispatch(increaseTotal())
 
     if (pressedValue === currentQuestion.correct_answer) {
-      // store
+      dispatch(increaseCorrect())
+      //change style
     } else {
-      // store
+      // change style
     }
-    // handleRestartTimer()
     goToNextQuestion()
   }
 
@@ -119,7 +131,7 @@ const Game = () => {
     content = <p>Loading...</p>
   }
 
-  if (isSuccess && quizData.response_code === 0) {
+  if (isSuccess && quizData.response_code === RESPONSE_CODES.ok) {
     content = (
       <div className={styles.game}>
         <div className={styles.game__info}>
@@ -152,7 +164,7 @@ const Game = () => {
     )
   }
 
-  if (isSuccess && quizData.response_code === 1) {
+  if (isSuccess && quizData.response_code === RESPONSE_CODES.noResults) {
     content = <p>Sorry we dont have a quiz with such settings :( Try another one</p>
   }
 
