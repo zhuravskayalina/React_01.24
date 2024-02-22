@@ -1,9 +1,11 @@
 export const MIN_QUESTIONS_AMOUNT = 15
 export const MAX_QUESTIONS_AMOUNT = 50
 export const ANY_CATEGORY = 'Any Category'
-export const ANY_ID = 'any'
-export const ANY_DIFFICULTY = 'Any Difficulty'
-export const ANY_TYPE = 'Any Type'
+export const ANY = 'any'
+
+export const EASY_DIFFICULTY = 'easy'
+export const MEDIUM_DIFFICULTY = 'medium'
+export const HARD_DIFFICULTY = 'hard'
 
 export type Option = {
   id: string | number
@@ -11,14 +13,14 @@ export type Option = {
 }
 
 export const difficultyOptions = [
-  { id: 1, name: ANY_DIFFICULTY },
-  { id: 'easy', name: 'Easy' },
-  { id: 'medium', name: 'Medium' },
-  { id: 'hard', name: 'Hard' }
+  { id: ANY, name: 'Any difficulty' },
+  { id: EASY_DIFFICULTY, name: 'Easy' },
+  { id: MEDIUM_DIFFICULTY, name: 'Medium' },
+  { id: HARD_DIFFICULTY, name: 'Hard' }
 ]
 
 export const typeOptions = [
-  { id: ANY_ID, name: ANY_TYPE },
+  { id: ANY, name: 'Any type' },
   { id: 'multiple', name: 'Multiple Choice' },
   { id: 'boolean', name: 'True/False' }
 ]
