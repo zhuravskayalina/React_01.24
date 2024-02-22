@@ -11,13 +11,13 @@ import { useGetQuizQuery } from '../redux/api/apiSlice.ts'
 import { useAppSelector } from '../redux/hooks/hooks.ts'
 import Question from '../components/Question/Question.tsx'
 
-const gameTime = 100
+const SECONDS_IN_MINUTE = 60
 
 const Game = () => {
   const [questionNumber, setQuestionNumber] = useState(1)
 
   const quizConfig = useAppSelector((store) => store.gameConfiguration)
-  const { questionsAmount, category, difficulty, type } = quizConfig
+  const { questionsAmount, category, difficulty, type, time } = quizConfig
 
   const {
     data: quizData = { results: [], response_code: '' },
@@ -31,7 +31,7 @@ const Game = () => {
   const [timerKey, setTimerKey] = useState<number>(0)
   const [openConfirmModal, setOpenConfirmModal] = useState(false)
   const [openGameOverModal, setOpenGameOverModal] = useState(false)
-  const [quizTime, setQuizTime] = useState(gameTime)
+  const [quizTime, setQuizTime] = useState(time * SECONDS_IN_MINUTE)
   const [gameOver, setGameOver] = useState(false)
   const [timerIsActive, setTimerIsActive] = useState(true)
 
