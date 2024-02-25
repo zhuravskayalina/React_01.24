@@ -1,8 +1,8 @@
 import { GameConfiguration, QuestionData } from '../types/types.ts'
 
 export const mockData: GameConfiguration = {
-  difficulty: 'Medium',
-  type: 'Any Type',
+  difficulty: 'medium',
+  type: 'any',
   questionsAmount: 10,
   category: { id: 1, name: 'Films' },
   time: 5

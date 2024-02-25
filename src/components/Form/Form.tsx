@@ -5,7 +5,7 @@ import { SelectInput } from '../SelectInput/SelectInput.tsx'
 import { ChangeEvent, useMemo } from 'react'
 import {
   ANY_CATEGORY,
-  ANY_ID,
+  ANY,
   difficultyOptions,
   MAX_QUESTIONS_AMOUNT,
   MIN_QUESTIONS_AMOUNT,
@@ -38,7 +38,7 @@ const Form = () => {
   const categoriesWithAny = useMemo(() => {
     const copy = [...categories.trivia_categories]
     copy.unshift({
-      id: ANY_ID,
+      id: ANY,
       name: ANY_CATEGORY
     })
     return copy
