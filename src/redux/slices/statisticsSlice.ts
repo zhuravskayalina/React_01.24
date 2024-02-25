@@ -9,21 +9,14 @@ import {
 } from '../../data/FormData.tsx'
 import { QuestionData } from '../../types/types.ts'
 
-type StatisticsByCategory = { [key: string]: number }
+type StatisticsObject = { [key: string]: number }
 
 interface Statistics {
   total: number
   correct: number
-  byCategory: StatisticsByCategory
-  byDifficulty: {
-    easy: number
-    medium: number
-    hard: number
-  }
-  byType: {
-    boolean: number
-    multiple: number
-  }
+  byCategory: StatisticsObject
+  byDifficulty: StatisticsObject
+  byType: StatisticsObject
 }
 
 const initialState: Statistics = {
@@ -67,7 +60,7 @@ const statisticsSlice = createSlice({
           state.byDifficulty.medium += 1
           break
         case HARD_DIFFICULTY:
-          state.byCategory.hard += 1
+          state.byDifficulty.hard += 1
       }
 
       switch (action.payload.type) {
