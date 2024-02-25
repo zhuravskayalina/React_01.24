@@ -60,7 +60,6 @@ const Form = () => {
   }
 
   const handleDifficultyChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    console.log(event.target.value)
     dispatch(
       setDifficulty(event.target.value as Pick<GameConfiguration, 'difficulty'>['difficulty'])
     )
