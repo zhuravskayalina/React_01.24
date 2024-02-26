@@ -5,11 +5,13 @@ import Game from '../pages/Game.tsx'
 import { URL } from './types.ts'
 import Results from '../pages/Results.tsx'
 import Statistics from '../pages/Statistics.tsx'
+import NotFound from '../pages/NotFound.tsx'
 
 export const router = createBrowserRouter([
   {
     path: URL.Home,
     element: <Layout />,
+    errorElement: <NotFound />,
     children: [
       {
         path: URL.Home,

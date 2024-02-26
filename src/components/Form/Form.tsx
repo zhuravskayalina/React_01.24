@@ -2,7 +2,7 @@ import styles from './Form.module.scss'
 
 import { NumberInput } from '../NumberInput/NumberInput.tsx'
 import { SelectInput } from '../SelectInput/SelectInput.tsx'
-import { ChangeEvent, useMemo } from 'react'
+import { ChangeEvent, useMemo, useState } from 'react'
 import {
   ANY_CATEGORY,
   ANY,
@@ -25,8 +25,11 @@ import {
   setType
 } from '../../redux/slices/configurationSlice.ts'
 import { GameConfiguration } from '../../types/types.ts'
+import { CircularProgress } from '@mui/material'
 
 const Form = () => {
+  const [questionsAmountError, setQuestionsAmountError] = useState(false)
+
   const {
     data: categories = { trivia_categories: [] },
     isLoading,
@@ -48,7 +51,13 @@ const Form = () => {
 
   const handleNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = Number(event.target.value)
-    dispatch(setQuestionsAmount(value))
+
+    if (value < 15 || value > 50) {
+      setQuestionsAmountError(true)
+    } else {
+      setQuestionsAmountError(false)
+      dispatch(setQuestionsAmount(value))
+    }
   }
 
   const handleCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -74,27 +83,22 @@ const Form = () => {
     dispatch(setTime(value))
   }
 
-  let formContent
+  let content
 
   if (isLoading) {
-    formContent = <p>Loading</p>
+    content = <CircularProgress />
   } else if (isSuccess) {
-    formContent = (
-      <SelectInput name="category" options={categoriesWithAny} onChange={handleCategoryChange} />
-    )
-  } else if (isError) {
-    formContent = <div>{error.toString()}</div>
-  }
-
-  return (
-    <div className={styles.container}>
+    content = (
       <form className={styles.form}>
         <NumberInput
           min={MIN_QUESTIONS_AMOUNT}
           max={MAX_QUESTIONS_AMOUNT}
           onChange={handleNumberChange}
         />
-        {formContent}
+        {questionsAmountError && (
+          <p className={styles.validationError}>Please enter number from 15 to 50</p>
+        )}
+        <SelectInput name="category" options={categoriesWithAny} onChange={handleCategoryChange} />
         <SelectInput
           name="difficulty"
           options={difficultyOptions}
@@ -103,7 +107,9 @@ const Form = () => {
         <SelectInput name="type" options={typeOptions} onChange={handleTypeChange} />
         <SelectInput name="time" options={timeOptions} onChange={handleTimeChange} />
         <div className={styles.buttons}>
-          <Link to={URL.Game} className={clsx(styles.button, styles.button__start)}>
+          <Link
+            to={questionsAmountError ? '' : URL.Game}
+            className={clsx(styles.button, styles.button__start)}>
             Start quiz
           </Link>
           <Link to={URL.Statistics} className={clsx(styles.button, styles.button__results)}>
@@ -111,8 +117,12 @@ const Form = () => {
           </Link>
         </div>
       </form>
-    </div>
-  )
+    )
+  } else if (isError) {
+    content = <div>{error.toString()}</div>
+  }
+
+  return <div className={styles.container}>{content}</div>
 }
 
 export default Form
