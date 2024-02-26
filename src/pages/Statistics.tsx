@@ -8,12 +8,15 @@ const Statistics = () => {
     <div>
       <h2 className={styles.heading}>Statistics</h2>
       <div className={styles.table}>
-        <p className={styles.table__heading}>Answered questions:</p>
-        <p>Total amount: {data.total}</p>
-        <p>Amount of correct answers: {data.correct}</p>
+        <p>
+          Total number of completed questions: <span className={styles.number}>{data.total}</span>
+        </p>
+        <p>
+          Amount of correct answers: <span className={styles.number}>{data.correct}</span>
+        </p>
 
         <div className={styles.section}>
-          <p>By category</p>
+          <p className={styles.section__heading}>By category</p>
           <ul className={styles.section__list}>
             {Object.keys(data.byCategory).map((category) => (
               <li key={category}>
@@ -23,7 +26,7 @@ const Statistics = () => {
           </ul>
         </div>
         <div className={styles.section}>
-          <p>By difficulty</p>
+          <p className={styles.section__heading}>By difficulty</p>
           <ul className={styles.section__list}>
             {Object.keys(data.byDifficulty).map((item) => (
               <li key={item}>
@@ -33,7 +36,7 @@ const Statistics = () => {
           </ul>
         </div>
         <div className={styles.section}>
-          <p>By quiz type</p>
+          <p className={styles.section__heading}>By quiz type</p>
           <ul className={styles.section__list}>
             {Object.keys(data.byType).map((item) => (
               <li key={item}>

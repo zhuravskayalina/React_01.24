@@ -1,8 +1,9 @@
 @use 'src/styles/colors';
 
 .heading {
-  border-bottom: 2px solid white;
   padding-bottom: 10px;
+  margin: 0;
+  font-size: 10vw;
 }
 
 .table {
@@ -21,8 +22,16 @@
 
 .section {
 
+  &__heading {
+    text-transform: uppercase;
+  }
+
   &__list {
     list-style: none;
   }
 
+}
+
+.number {
+  font-size: 40px;
 }
