@@ -42,7 +42,7 @@ const Game = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    let timer: number
+    let timer: NodeJS.Timeout
     if (timerIsActive) {
       timer = setInterval(() => {
         setQuizTime((prevSeconds) => {
