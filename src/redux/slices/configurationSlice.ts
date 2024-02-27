@@ -36,7 +36,7 @@ export const configurationSlice = createSlice({
     setTime(state, action: PayloadAction<number>) {
       state.time = action.payload
     },
-    reset(state) {
+    resetCurrentQuizData(state) {
       Object.assign(state, initialState)
     }
   }

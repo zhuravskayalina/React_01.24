@@ -12,6 +12,12 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks/hooks.ts'
 import Question from '../components/Question/Question.tsx'
 import { addInfo, increaseCorrect, increaseTotal } from '../redux/slices/statisticsSlice.ts'
 import { RESPONSE_CODES } from '../types/enums.ts'
+import {
+  addQuestion,
+  increaseCorrectAnswers,
+  resetCurrentQuizData,
+  setTime
+} from '../redux/slices/currentQuizSlice.ts'
 
 const SECONDS_IN_MINUTE = 60
 
@@ -31,6 +37,8 @@ const Game = () => {
   const dispatch = useAppDispatch()
 
   const currentQuestion = quizData?.results[questionNumber - 1]
+
+  console.log(currentQuestion?.correct_answer)
 
   const [timerKey, setTimerKey] = useState<number>(0)
   const [openConfirmModal, setOpenConfirmModal] = useState(false)
@@ -63,6 +71,11 @@ const Game = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameOver, timerIsActive])
+
+  useEffect(() => {
+    dispatch(resetCurrentQuizData())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleNavigateToResults = () => {
     navigate(URL.Results, { replace: true })
@@ -97,8 +110,8 @@ const Game = () => {
 
     if (nextQuestionNumber > questionsAmount) {
       dispatch(increaseTotal())
-
       setGameOver(true)
+      dispatch(setTime(time * SECONDS_IN_MINUTE - quizTime))
       stopTimer()
       setTimeout(handleNavigateToResults, 2000)
     } else {
@@ -107,17 +120,27 @@ const Game = () => {
   }
 
   const handlePressAnswer = (event: React.MouseEvent<HTMLButtonElement>): void => {
-    const pressedValue = (event.target as HTMLButtonElement).dataset.value
-    const info = {
+    const pressedValue = (event.target as HTMLButtonElement).dataset.value as string
+
+    const questionOverallInfo = {
       category: currentQuestion.category,
       type: currentQuestion.type,
       difficulty: currentQuestion.difficulty
     }
-    dispatch(addInfo(info))
+
+    const answerInfo = {
+      question: currentQuestion.question,
+      correctAnswer: currentQuestion.correct_answer,
+      userAnswer: pressedValue
+    }
+
+    dispatch(addInfo(questionOverallInfo))
     dispatch(increaseTotal())
+    dispatch(addQuestion(answerInfo))
 
     if (pressedValue === currentQuestion.correct_answer) {
       dispatch(increaseCorrect())
+      dispatch(increaseCorrectAnswers())
       //change style
     } else {
       // change style

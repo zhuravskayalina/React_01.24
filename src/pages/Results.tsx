@@ -1,12 +1,15 @@
 import { useNavigate } from 'react-router-dom'
 import styles from './Results.module.scss'
 import QuizResultsTable from '../components/ResultsTable/ResultsTable.tsx'
-import { mockData } from '../data/quizData.ts'
-import { useAppDispatch } from '../redux/hooks/hooks.ts'
+import { useAppDispatch, useAppSelector } from '../redux/hooks/hooks.ts'
 import { reset } from '../redux/slices/configurationSlice.ts'
 
 const Results = () => {
-  const { category, difficulty, type, time } = mockData
+  const { category, difficulty, type, questionsAmount } = useAppSelector(
+    (state) => state.gameConfiguration
+  )
+  const { time, questions, correctAnswers } = useAppSelector((state) => state.currentQuiz)
+
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
@@ -30,13 +33,17 @@ const Results = () => {
             <p className={styles.info__item}>Time: {time} min</p>
           </div>
           <p>
-            You answered <span className={styles.focus}>5 out of 10</span> questions correctly
+            You answered{' '}
+            <span className={styles.focus}>
+              {correctAnswers} out of {questionsAmount}
+            </span>{' '}
+            questions correctly
           </p>
           <p>
-            You've spend <span className={styles.focus}>2 min</span> to complete the quiz
+            You've spend <span className={styles.focus}>{time} sec</span> to complete the quiz
           </p>
         </div>
-        <QuizResultsTable />
+        <QuizResultsTable questions={questions} />
       </div>
       <div className={styles.buttons}>
         <button
