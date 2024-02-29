@@ -10,7 +10,7 @@ const Statistics = () => {
   const percent = Math.floor((data.correct / data.total) * 100)
 
   return (
-    <div>
+    <div className={styles.statistics}>
       <h2 className={styles.heading}>Statistics</h2>
       <div className={styles.table}>
         <div className={styles.common}>

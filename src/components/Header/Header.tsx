@@ -10,10 +10,6 @@ const navigationData = [
     url: URL.Home
   },
   {
-    title: 'Results',
-    url: URL.Results
-  },
-  {
     title: 'Statistics',
     url: URL.Statistics
   }

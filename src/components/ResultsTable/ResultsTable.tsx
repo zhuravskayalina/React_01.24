@@ -23,8 +23,12 @@ const QuizResultsTable = ({ questions }: QuizResultsTableProps) => {
               <p className={styles.table__item}>{el.question}</p>
               <p className={styles.table__item}>{el.correctAnswer}</p>
               <p className={styles.table__item}>{el.userAnswer}</p>
-              <p className={styles.table__item}>
-                {el.correctAnswer === el.userAnswer ? 'correct' : 'incorrect'}
+              <p
+                className={clsx(
+                  styles.table__item,
+                  el.correctAnswer === el.userAnswer ? styles.correct : styles.incorrect
+                )}>
+                {el.correctAnswer === el.userAnswer ? 'correct' : 'wrong'}
               </p>
             </li>
           ))}

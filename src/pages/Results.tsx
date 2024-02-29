@@ -3,12 +3,15 @@ import styles from './Results.module.scss'
 import QuizResultsTable from '../components/ResultsTable/ResultsTable.tsx'
 import { useAppDispatch, useAppSelector } from '../redux/hooks/hooks.ts'
 import { reset } from '../redux/slices/configurationSlice.ts'
+import { formatTime } from '../utils/helpers.ts'
 
 const Results = () => {
   const { category, difficulty, type, questionsAmount } = useAppSelector(
     (state) => state.gameConfiguration
   )
   const { time, questions, correctAnswers } = useAppSelector((state) => state.currentQuiz)
+
+  const formattedTime = formatTime(time)
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -30,7 +33,6 @@ const Results = () => {
             <p className={styles.info__item}>Category: {category.name}</p>
             <p className={styles.info__item}>Difficulty: {difficulty}</p>
             <p className={styles.info__item}>Type: {type}</p>
-            <p className={styles.info__item}>Time: {time} min</p>
           </div>
           <p>
             You answered{' '}
@@ -40,7 +42,8 @@ const Results = () => {
             questions correctly
           </p>
           <p>
-            You've spend <span className={styles.focus}>{time} sec</span> to complete the quiz
+            You've spend <span className={styles.focus}>{formattedTime} min</span> to complete the
+            quiz
           </p>
         </div>
         <QuizResultsTable questions={questions} />

@@ -18,6 +18,7 @@ import {
   resetCurrentQuizData,
   setTime
 } from '../redux/slices/currentQuizSlice.ts'
+import { CircularProgress } from '@mui/material'
 
 const SECONDS_IN_MINUTE = 60
 
@@ -37,8 +38,6 @@ const Game = () => {
   const dispatch = useAppDispatch()
 
   const currentQuestion = quizData?.results[questionNumber - 1]
-
-  console.log(currentQuestion?.correct_answer)
 
   const [timerKey, setTimerKey] = useState<number>(0)
   const [openConfirmModal, setOpenConfirmModal] = useState(false)
@@ -151,7 +150,11 @@ const Game = () => {
   let content
 
   if (isLoading) {
-    content = <p>Loading...</p>
+    content = (
+      <div className={styles.loading}>
+        <CircularProgress size={150} />
+      </div>
+    )
   }
 
   if (isSuccess && quizData.response_code === RESPONSE_CODES.ok) {

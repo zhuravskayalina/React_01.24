@@ -76,12 +76,20 @@
     transition: .3s;
     border: none;
     border-radius: 10px;
+    user-select: none;
 
     &:hover {
       cursor: pointer;
       background-color: colors.$white;
     }
   }
+}
+
+.loading {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .button {
@@ -102,4 +110,12 @@
       background-color: rgba(255, 255, 255, 0.38);
     }
   }
+}
+
+.correct {
+  background-color: colors.$correct;
+}
+
+.incorrect {
+  background-color: colors.$incorrect;
 }
