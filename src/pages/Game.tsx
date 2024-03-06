@@ -1,4 +1,5 @@
 import styles from './Game.module.scss'
+import { motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 import QuizProgress from '../components/ProgressBar/ProgressBar.tsx'
 import Timer from '../components/Timer/Timer.tsx'
@@ -140,10 +141,8 @@ const Game = () => {
     if (pressedValue === currentQuestion.correct_answer) {
       dispatch(increaseCorrect())
       dispatch(increaseCorrectAnswers())
-      //change style
-    } else {
-      // change style
     }
+
     goToNextQuestion()
   }
 
@@ -165,9 +164,14 @@ const Game = () => {
             <p className={styles.game__infoItem}>Category: {category.name}</p>
             <p className={styles.game__infoItem}>Difficulty: {difficulty}</p>
           </div>
-          <button className={styles.button_end} title="End quiz" onClick={handleOpenConfirmModal}>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            title="End quiz"
+            className={styles.button_end}
+            onClick={handleOpenConfirmModal}>
             End quiz
-          </button>
+          </motion.button>
         </div>
         <div className={styles.game__progress}>
           <QuizProgress questionsAmount={questionsAmount} currentQuestion={questionNumber} />

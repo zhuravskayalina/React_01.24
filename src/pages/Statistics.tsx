@@ -2,13 +2,15 @@ import { useAppSelector } from '../redux/hooks/hooks.ts'
 import styles from './Statistics.module.scss'
 import CircularProgress from '../components/Progress/Progress.tsx'
 import clsx from 'clsx'
-import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 import { URL } from '../router/types.ts'
 
 const Statistics = () => {
   const data = useAppSelector((state) => state.statistics)
   const percent = Math.floor((data.correct / data.total) * 100)
 
+  const navigate = useNavigate()
   return (
     <div className={styles.statistics}>
       <h2 className={styles.heading}>Statistics</h2>
@@ -24,7 +26,12 @@ const Statistics = () => {
               <span className={clsx(styles.number, styles.number_correct)}>{data.correct}</span>
             </p>
           </div>
-          <CircularProgress progress={percent} size={150} strokeWidth={10} />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.3 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1 }}>
+            <CircularProgress progress={percent} size={150} strokeWidth={10} />
+          </motion.div>
         </div>
         <div className={styles.section}>
           <p className={styles.section__heading}>By category</p>
@@ -60,9 +67,13 @@ const Statistics = () => {
           </ul>
         </div>
       </div>
-      <Link to={URL.Home} className={styles.backButton}>
+      <motion.button
+        onClick={() => navigate(URL.Home)}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        className={styles.backButton}>
         Back to home page
-      </Link>
+      </motion.button>
     </div>
   )
 }

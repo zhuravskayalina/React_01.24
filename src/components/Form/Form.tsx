@@ -1,5 +1,4 @@
 import styles from './Form.module.scss'
-
 import { NumberInput } from '../NumberInput/NumberInput.tsx'
 import { SelectInput } from '../SelectInput/SelectInput.tsx'
 import { ChangeEvent, useMemo, useState } from 'react'
