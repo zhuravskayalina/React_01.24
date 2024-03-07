@@ -1,4 +1,5 @@
 import styles from './Game.module.scss'
+import { motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 import QuizProgress from '../components/ProgressBar/ProgressBar.tsx'
 import Timer from '../components/Timer/Timer.tsx'
@@ -12,6 +13,13 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks/hooks.ts'
 import Question from '../components/Question/Question.tsx'
 import { addInfo, increaseCorrect, increaseTotal } from '../redux/slices/statisticsSlice.ts'
 import { RESPONSE_CODES } from '../types/enums.ts'
+import {
+  addQuestion,
+  increaseCorrectAnswers,
+  resetCurrentQuizData,
+  setTime
+} from '../redux/slices/currentQuizSlice.ts'
+import { CircularProgress } from '@mui/material'
 
 const SECONDS_IN_MINUTE = 60
 
@@ -64,6 +72,11 @@ const Game = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameOver, timerIsActive])
 
+  useEffect(() => {
+    dispatch(resetCurrentQuizData())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const handleNavigateToResults = () => {
     navigate(URL.Results, { replace: true })
   }
@@ -97,8 +110,8 @@ const Game = () => {
 
     if (nextQuestionNumber > questionsAmount) {
       dispatch(increaseTotal())
-
       setGameOver(true)
+      dispatch(setTime(time * SECONDS_IN_MINUTE - quizTime))
       stopTimer()
       setTimeout(handleNavigateToResults, 2000)
     } else {
@@ -107,28 +120,40 @@ const Game = () => {
   }
 
   const handlePressAnswer = (event: React.MouseEvent<HTMLButtonElement>): void => {
-    const pressedValue = (event.target as HTMLButtonElement).dataset.value
-    const info = {
+    const pressedValue = (event.target as HTMLButtonElement).dataset.value as string
+
+    const questionOverallInfo = {
       category: currentQuestion.category,
       type: currentQuestion.type,
       difficulty: currentQuestion.difficulty
     }
-    dispatch(addInfo(info))
+
+    const answerInfo = {
+      question: currentQuestion.question,
+      correctAnswer: currentQuestion.correct_answer,
+      userAnswer: pressedValue
+    }
+
+    dispatch(addInfo(questionOverallInfo))
     dispatch(increaseTotal())
+    dispatch(addQuestion(answerInfo))
 
     if (pressedValue === currentQuestion.correct_answer) {
       dispatch(increaseCorrect())
-      //change style
-    } else {
-      // change style
+      dispatch(increaseCorrectAnswers())
     }
+
     goToNextQuestion()
   }
 
   let content
 
   if (isLoading) {
-    content = <p>Loading...</p>
+    content = (
+      <div className={styles.loading}>
+        <CircularProgress size={150} />
+      </div>
+    )
   }
 
   if (isSuccess && quizData.response_code === RESPONSE_CODES.ok) {
@@ -139,9 +164,14 @@ const Game = () => {
             <p className={styles.game__infoItem}>Category: {category.name}</p>
             <p className={styles.game__infoItem}>Difficulty: {difficulty}</p>
           </div>
-          <button className={styles.button_end} title="End quiz" onClick={handleOpenConfirmModal}>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            title="End quiz"
+            className={styles.button_end}
+            onClick={handleOpenConfirmModal}>
             End quiz
-          </button>
+          </motion.button>
         </div>
         <div className={styles.game__progress}>
           <QuizProgress questionsAmount={questionsAmount} currentQuestion={questionNumber} />

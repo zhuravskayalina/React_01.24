@@ -1,7 +1,9 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 import { apiSlice } from './api/apiSlice.ts'
 import gameReducer from './slices/configurationSlice.ts'
 import statisticsReducer from './slices/statisticsSlice.ts'
+import currentQuizReducer from './slices/currentQuizSlice.ts'
+
 import {
   persistReducer,
   persistStore,
@@ -20,15 +22,15 @@ const persistConfig = {
   blacklist: [apiSlice.reducerPath]
 }
 
-const rootReducer = combineReducers({
-  gameConfiguration: gameReducer,
-  statistics: statisticsReducer,
-  [apiSlice.reducerPath]: apiSlice.reducer
-})
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, statisticsReducer)
 
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: {
+    statistics: persistedReducer,
+    gameConfiguration: gameReducer,
+    currentQuiz: currentQuizReducer,
+    [apiSlice.reducerPath]: apiSlice.reducer
+  },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {

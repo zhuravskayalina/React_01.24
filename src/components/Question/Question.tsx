@@ -2,6 +2,7 @@ import styles from '../../pages/Game.module.scss'
 import { QuestionData } from '../../types/types.ts'
 import { shuffleArray } from '../../utils/helpers.ts'
 import { useMemo } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface QuestionProps {
   data: QuestionData
@@ -22,28 +23,34 @@ const Question = ({
     .replaceAll('&ouml', 'ö')
 
   return (
-    <div className={styles.question}>
-      <div className={styles.question__heading}>
-        <p className={styles.question__text}>{questionText}</p>
-      </div>
+    <AnimatePresence>
+      <motion.div
+        key={question}
+        initial={{ scale: 0.5 }}
+        animate={{ scale: 1 }}
+        className={styles.question}>
+        <div className={styles.question__heading}>
+          <p className={styles.question__text}>{questionText}</p>
+        </div>
 
-      <div className={styles.options}>
-        <p>Choose your answer:</p>
-        <ul className={styles.options__list}>
-          {answers.map((answer) => (
-            <li className={styles.options__item} key={answer}>
-              <button
-                className={styles.options__button}
-                title={answer}
-                data-value={answer}
-                onClick={onClick}>
-                {answer}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
+        <div className={styles.options}>
+          <p>Choose your answer:</p>
+          <ul className={styles.options__list}>
+            {answers.map((answer) => (
+              <li className={styles.options__item} key={answer}>
+                <button
+                  className={styles.options__button}
+                  title={answer}
+                  data-value={answer}
+                  onClick={onClick}>
+                  {answer}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </motion.div>
+    </AnimatePresence>
   )
 }
 
